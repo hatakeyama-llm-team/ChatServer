@@ -7,6 +7,9 @@ import time
 
 model_id="kanhatakeyama/0405_100m_clean_ja"
 model_id = "mistral-community/Mixtral-8x22B-v0.1"
+#model_id="llm-jp/llm-jp-13b-dpo-lora-hh_rlhf_ja-v1.1"
+peft_path="/home/hatakeyama/python/mixtral/outputs/mixtral_1kdolly_1epoch"
+
 with open("env/url.txt") as f:
     url = f.read().strip()
 
@@ -15,7 +18,7 @@ client=Client(url)
 
 #モデル
 
-bot=Bot(model_id)
+bot=Bot(model_id,peft_path=peft_path)
 
 while True:
     #未回答の質問を取得
@@ -26,7 +29,7 @@ while True:
                 print("no question to answer")
                 break
                 
-            prompt=inst+"\nQ."+question+"\nA."
+            prompt=inst+"\n###入力:\n"+question+"\n###応答:\n"
             print(prompt)
 
             #回答させる
