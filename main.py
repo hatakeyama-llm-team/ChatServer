@@ -37,7 +37,7 @@ while True:
             response = bot.ask(question)
 
             # 回答を送信
-            client.answer(row_id, "model:"+response, model_id +
+            client.answer(row_id, response, model_id +
                           "time:"+datetime.datetime.now().isoformat())
         except Exception as e:
             print(e)
