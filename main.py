@@ -35,12 +35,15 @@ while True:
 
             # 回答させる
             response = bot.ask(question)
+            if response == "":
+                response = "-"
+            print("response:", response)
 
             # 回答を送信
             client.answer(row_id, response, model_id +
                           "time:"+datetime.datetime.now().isoformat())
         except Exception as e:
             print(e)
-            time.sleep(5)
+            time.sleep(60)
             continue
-    time.sleep(60)
+    time.sleep(600)
