@@ -24,8 +24,10 @@ class Client:
 
         questions=[]
         answers=[]
+        instructios=[]
         for records in values:
             questions.append(records[0])
+            instructios.append(records[2])
             if len(records)>1:
                 answers.append(records[1])
             else:
@@ -33,14 +35,19 @@ class Client:
 
         self.questions=questions
         self.answers=answers
+        self.instructios=instructios
+        self.values=values
         return questions,answers
 
     def get_unanswered_question(self):
-        for id,(q,a) in enumerate(zip(self.questions,self.answers)):
-            if a=="":
-                break
+        self.get_q_and_a()
 
-        return id+1,q
+        for id,(q,a,inst) in enumerate(zip(self.questions,self.answers,self.instructios)):
+            if a=="":
+                return id+1,q,inst
+
+        return -1,"",""
     
-    def answer(self,row_id,answer):
+    def answer(self,row_id,answer,metainfo="meta"):
         self.sheet.update(f'B{row_id}', [[answer]])
+        self.sheet.update(f'D{row_id}', [[metainfo]])
