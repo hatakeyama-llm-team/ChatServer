@@ -21,6 +21,7 @@ client = Client(url)
 
 #bot = Bot(model_id, peft_path=peft_path)
 bot=MixtralBot(model_id, peft_path=peft_path)
+mixtral_mode=True
 
 def generate_prompt(inst_template, question):
     inst1,inst2=inst_template.split("{question}")
@@ -31,17 +32,22 @@ while True:
     # 未回答の質問を取得
     while True:
         try:
+            print("fetching questions")
             row_id, question, inst = client.get_unanswered_question()
+            print((question))
             if question == "":
                 print("no question to answer")
                 break
+            
+            if mixtral_mode:
+                response=bot.ask(question)
+            else:
+                #prompt = inst+"\n###入力:\n"+question+"\n###応答:\n"
+                prompt=generate_prompt(inst,question)
+                print(prompt)
 
-            #prompt = inst+"\n###入力:\n"+question+"\n###応答:\n"
-            prompt=generate_prompt(inst,question)
-            print(prompt)
-
-            # 回答させる
-            response = bot.ask(prompt)
+                # 回答させる
+                response = bot.ask(prompt)
             if response == "":
                 response = "-"
             print("response:", response)

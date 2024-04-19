@@ -36,4 +36,4 @@ class MixtralBot:
         generated_ids = self.model.generate(model_inputs, max_new_tokens=self.max_new_tokens, do_sample=True)
         sp_tokenizer = self.tokenizer.instruct_tokenizer.tokenizer
         decoded = sp_tokenizer.decode(generated_ids.tolist())
-        return decoded[len(question):]
+        return decoded[0][len(question):]
