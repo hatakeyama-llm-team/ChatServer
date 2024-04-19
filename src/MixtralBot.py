@@ -10,7 +10,7 @@ import torch
 class MixtralBot:
     def __init__(self,model_id="mistral-community/Mixtral-8x22B-v0.1",
                 peft_path=None,
-                 max_new_tokens=1000) -> None:
+                 max_new_tokens=4000) -> None:
         print("loading model...")
 
         self.model = AutoModelForCausalLM.from_pretrained(model_id,device_map="auto")
