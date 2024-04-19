@@ -2,21 +2,25 @@
 import datetime
 from src.Client import Client
 from src.Bot import Bot
+from src.MixtralBot import MixtralBot
 import time
 
 
+peft_path = ""
 model_id = "kanhatakeyama/0405_100m_clean_ja"
 model_id = "mistral-community/Mixtral-8x22B-v0.1"
+model_id="mistralai/Mixtral-8x22B-Instruct-v0.1"
 #model_id = "llm-jp/llm-jp-13b-dpo-lora-hh_rlhf_ja-v1.1"
-peft_path = "/home/hatakeyama/python/ChatServer/outputs/mixtral_1epoch_0415"
-#peft_path = ""
+#peft_path = "/home/hatakeyama/python/ChatServer/outputs/mixtral_1epoch_0415"
 
 with open("env/url.txt") as f:
     url = f.read().strip()
 
 #apiクライアントとchatbotを起動
 client = Client(url)
-bot = Bot(model_id, peft_path=peft_path)
+
+#bot = Bot(model_id, peft_path=peft_path)
+bot=MixtralBot(model_id, peft_path=peft_path)
 
 def generate_prompt(inst_template, question):
     inst1,inst2=inst_template.split("{question}")
