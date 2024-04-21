@@ -5,10 +5,11 @@ from llama_cpp import Llama
 class GGUFBot:
     def __init__(self,model_path= "model/Mixtral-8x22B-Instruct-v0.1.Q5_K_M-00001-of-00004.gguf",
                  max_new_tokens=4000,
-                 n_ctx=4096) -> None:
+                 n_ctx=4096,
+                 n_gpu_layers=300) -> None:
         print("loading model...")
 
-        self.model= Llama(model_path = model_path,  n_ctx = n_ctx, n_gpu_layers=300, )
+        self.model= Llama(model_path = model_path,  n_ctx = n_ctx, n_gpu_layers=n_gpu_layers, )
         self.max_new_tokens = max_new_tokens
 
 

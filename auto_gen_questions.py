@@ -11,7 +11,7 @@ original_question_list
 # %%
 
 model_path= "model/Mixtral-8x22B-Instruct-v0.1.Q5_K_M-00001-of-00004.gguf"
-bot=GGUFBot(model_path,max_new_tokens=4000,n_ctx=4000)
+bot=GGUFBot(model_path,max_new_tokens=4000,n_ctx=4000,n_gpu_layers=400)
 
 # %%
 import json
