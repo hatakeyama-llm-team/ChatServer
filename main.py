@@ -3,6 +3,7 @@ import datetime
 from src.Client import Client
 from src.Bot import Bot
 from src.MixtralBot import MixtralBot
+from src.GGUFBot import GGUFBot
 import time
 
 
@@ -20,7 +21,8 @@ with open("env/url.txt") as f:
 client = Client(url)
 
 #bot = Bot(model_id, peft_path=peft_path)
-bot=MixtralBot(model_id, peft_path=peft_path)
+#bot=MixtralBot(model_id, peft_path=peft_path)
+bot=GGUFBot()
 mixtral_mode=True
 
 def generate_prompt(inst_template, question):
@@ -57,6 +59,6 @@ while True:
                           "time:"+datetime.datetime.now().isoformat())
         except Exception as e:
             print(e)
-            time.sleep(10)
+            time.sleep(1)
             continue
-    time.sleep(10)
+    time.sleep(1)
