@@ -44,16 +44,9 @@ while True:
                 print("no question to answer")
                 break
 
-            if mixtral_mode:
-                response = bot.ask(question)
-            else:
-                # prompt = inst+"\n###入力:\n"+question+"\n###応答:\n"
-                prompt = generate_prompt(inst, question)
-                print(prompt)
-
-                # 回答させる
-                response1 = bot.ask(prompt)
-                response2 = bot.ask(prompt)
+            # 回答させる
+            response1 = bot.ask(question)
+            response2 = bot.ask(question)
             if response1 == "":
                 response1 = "-"
             if response2 == "":
