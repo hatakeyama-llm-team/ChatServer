@@ -42,6 +42,10 @@ while True:
             print((question))
             if question == "":
                 print("no question to answer")
+                if client.current_sheet_id == 0:
+                    client.set_sheet_id(1)
+                else:
+                    client.set_sheet_id(0)
                 break
 
             # 回答させる

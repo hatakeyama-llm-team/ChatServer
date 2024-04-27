@@ -18,7 +18,14 @@ class Client:
 
         gc = gspread.authorize(credentials)
 
-        self.sheet = gc.open_by_url(spreadsheet_url).sheet1
+        self.sheet_list = [gc.open_by_url(spreadsheet_url).sheet1,
+                           gc.open_by_url(
+            spreadsheet_url).get_worksheet_by_id(667188849)]
+        self.set_sheet_id(0)
+
+    def set_sheet_id(self, sid):
+        self.current_sheet_id = sid
+        self.sheet = self.sheet_list[sid]
 
     def get_q_and_a(self):
         values = self.sheet.get_all_values()
