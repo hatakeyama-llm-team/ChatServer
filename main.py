@@ -33,9 +33,15 @@ def generate_prompt(inst_template, question):
     return inst1+question+inst2
 
 
+count = 0
 while True:
     # 未回答の質問を取得
     while True:
+        if client.current_sheet_id == 1:
+            count += 1
+            if count > 2:
+                count = 0
+                client.set_sheet_id(0)
         try:
             print("fetching questions")
             row_id, question, inst = client.get_unanswered_question()
