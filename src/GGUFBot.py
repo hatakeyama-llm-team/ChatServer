@@ -38,4 +38,4 @@ class GGUFBot:
             # stop = ["\n###  Instruction:", "\n### Response:", "\n"],
             # echo = True,
         )
-        return output["choices"][0]["text"]
+        return output["choices"][0]["text"].strip()

@@ -54,7 +54,7 @@ class Client:
             if a == "":
                 return id+1, q, inst
 
-        return -1, "", ""
+        return id+1, "", ""
 
     def answer(self, row_id, answer1, answer2, metainfo="meta"):
         self.sheet.update(f'B{row_id}', [[answer1]])

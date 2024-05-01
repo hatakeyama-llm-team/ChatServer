@@ -3,6 +3,7 @@ import datetime
 from src.Client import Client
 # from src.Bot import Bot
 # from src.MixtralBot import MixtralBot
+import random
 from src.GGUFBot import GGUFBot
 import time
 
@@ -34,6 +35,7 @@ def generate_prompt(inst_template, question):
 
 
 count = 0
+no_question_count = 0
 while True:
     # 未回答の質問を取得
     while True:
@@ -46,8 +48,34 @@ while True:
             print("fetching questions")
             row_id, question, inst = client.get_unanswered_question()
             print((question))
+
+            # 何も質問がない状態が続いた場合､自分で質問を作る
+            if no_question_count > 5 and question == "":
+                client.set_sheet_id(0)
+                row_id, question, inst = client.get_unanswered_question()
+                print("generating new questions")
+                question = random.choice(client.questions)
+                prompt = f"""以下の問題・質問・指示の類題を日本語で作成してください。
+・類題はもとの問題からは必ず情報を追加・修正・削除し、内容、形式、記述方式が全く異なるようにすること
+・作成した内容のみを出力し､回答は絶対に出力しないこと
+{question}
+類題: 
+"""
+                print("prompt", prompt)
+                client.sheet.update(
+                    f'A{row_id}', [["automatically generating a question..."]])
+                question = bot.ask(prompt)
+                if question == "":
+                    continue
+                print("new question", question)
+                row_id += 1
+                client.sheet.update(f'A{row_id}', [[question]])
+                no_question_count = 0
+                count = 0
+                continue
             if question == "":
                 print("no question to answer")
+                no_question_count += 1
                 if client.current_sheet_id == 0:
                     client.set_sheet_id(1)
                 else:
@@ -56,12 +84,15 @@ while True:
 
             # 回答させる
             response1 = bot.ask(question)
-            response2 = bot.ask(question)
+            # response2 = bot.ask(question)
+            response2 = "-"
             if response1 == "":
                 response1 = "-"
             if response2 == "":
                 response2 = "-"
+            response1 = response1.strip()
             print("response:", response1, response2)
+            no_question_count = 0
 
             # 回答を送信
             client.answer(row_id, response1, response2, model_id +
