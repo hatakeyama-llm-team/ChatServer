@@ -17,14 +17,15 @@ model_id = "mistralai/Mixtral-8x22B-Instruct-v0.1"
 
 with open("env/url.txt") as f:
     url = f.read().strip()
-
+with open("env/path.txt") as f:
+    model_path = f.read().strip()
 # apiクライアントとchatbotを起動
 client = Client(url)
 
 # bot = Bot(model_id, peft_path=peft_path)
 # bot=MixtralBot(model_id, peft_path=peft_path)
 bot = GGUFBot(
-    model_path="/data/2023/1505llmmatsu/mixtral_gguf/model/Mixtral-8x22B-Instruct-v0.1.Q5_K_M-00001-of-00004.gguf")
+    model_path=model_path)
 mixtral_mode = True
 
 
