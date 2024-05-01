@@ -52,8 +52,11 @@ while True:
             # 何も質問がない状態が続いた場合､自分で質問を作る
             if no_question_count > 5 and question == "":
                 client.set_sheet_id(0)
-                row_id, question, inst = client.get_unanswered_question()
-                print("generating new questions")
+                client.get_q_and_a()
+                # row_id, question, inst = client.get_unanswered_question()
+                row_id = len(client.questions)+1
+                print("last question: "+client.questions[-1])
+                print(f"generating new questions. row_id: {row_id}")
                 question = random.choice(client.questions)
                 prompt = f"""以下の問題・質問・指示の類題を日本語で作成してください。
 ・類題はもとの問題からは必ず情報を追加・修正・削除し、内容、形式、記述方式が全く異なるようにすること
@@ -61,6 +64,7 @@ while True:
 {question}
 類題: 
 """
+
                 print("prompt", prompt)
                 client.sheet.update(
                     f'A{row_id}', [["automatically generating a question..."]])
@@ -68,7 +72,6 @@ while True:
                 if question == "":
                     continue
                 print("new question", question)
-                row_id += 1
                 client.sheet.update(f'A{row_id}', [[question]])
                 no_question_count = 0
                 count = 0
